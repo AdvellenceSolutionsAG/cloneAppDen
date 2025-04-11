@@ -22,7 +22,7 @@ def load_and_customize_payload(template_path, entity_type, artikelnummer, attrib
 
     return json.loads(json_str)
 
-def call_api(url, payload, headers):
+def post_request(url, payload, headers):
     response = requests.post(url, json=payload, headers=headers)
     response.raise_for_status()
     return response.json()
