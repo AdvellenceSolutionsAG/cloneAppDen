@@ -67,4 +67,4 @@ if st.button("🚀 Klonen starten"):
 
 # --- Footer ---
 st.markdown("---")
-st.markdown("<div style='text-align: center; color: gray;'>Made by <strong>Advellence Solutions AG</strong></div>", unsafe_allow_html=True)
+st.markdown("<div style='text-align: center; color: gray;'>Made with ❤️ by <strong>Advellence Solutions AG</strong></div>", unsafe_allow_html=True)
