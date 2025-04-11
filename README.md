@@ -1,86 +1,123 @@
 # MDM Clone App
 
-This tool enables copying or cloning of product and condition data from one MDM system to another (e.g., from PROD to FS). It supports complex data models with linked entities such as articles, supplier articles, trade items, and purchase/sales conditions. It also provides a debug mode and cloning capabilities.
+A streamlined tool for cloning complex MDM (Master Data Management) entities like articles, supplier articles, trade items, and purchase/sales conditions — all within the same environment.
 
-## 📦 Features
-- API-based data export and blob-based data import
-- Clone mode with new ID generation and relation updates
-- Debug mode (export only, no upload)
-- Optional UI for selecting source, target, config, and article numbers
+---
 
-## 🏗 Project Structure
+## 🔧 Features
+
+- Clone mode with automatic new ID generation and correct relation rewriting
+- Entity-type-based clone configuration (e.g., for exartikel, exlieferantenartikel, etc.)
+- Simple UI powered by Streamlit
+- URL-based access with pre-filled identifiers
+- Environment configuration via Azure App Settings or `.env`
+- Debug mode (data is only exported, not uploaded)
+
+---
+
+## 🧱 Project Structure
+
 ```plaintext
-├── main.py                 # Main control script
-├── utils.py                # Helper functions
-├── ui.py                   # Optional web UI (Streamlit)
+├── main.py                 # Executes the clone process
+├── ui.py                   # Streamlit UI
+├── utils.py                # Helper functions (payload creation, file handling)
+├── env_config.py           # Loads API settings from environment variables
 ├── config/
-│   ├── env/                # Environment configs (API URLs, headers)
-│   │   ├── example_Env.json
-│   └── clone/              # Clone configurations (articles, conditions, etc.)
-├── payloads/               # Template for API payloads
-│   └── template.json
-├── data/                   # Intermediate storage (get_entities.json and send_entities.json)
-└── .gitignore              # Git filter rules
+│   └── clone/              # Entity-based clone configs (e.g., exartikel_STANDARD.json)
+├── payloads/
+│   └── template.json       # Payload template with placeholders
+├── data/                   # Stores exported and upload-ready JSON files
+├── assets/
+│   └── logo.png            # Company logo used in UI
+└── requirements.txt        # Python dependencies
 ```
 
-## 🛠 Setup
-1. Clone the repository
-2. Create and activate a virtual environment:
-   ```bash
-   python -m venv .venv
-   source .venv/bin/activate  # macOS/Linux
-   .venv\Scripts\activate     # Windows
-   ```
-3. Install dependencies:
-   ```bash
-   pip install -r requirements.txt
-   ```
-4. Copy `config/env/example_Env.json` and adapt it as `DEN_PROD.json`, `DEN_FS.json`, etc.
-5. Create a `config/clone/` config for your use case (articles, conditions, etc.)
+---
 
-## ▶️ Usage
+## 🚀 Usage
 
-### Option A: Console
-```bash
-python main.py --from DEN_PROD --to DEN_FS --config CLONE_ARTICLE --articlenr eg. 1000000,1000001
-```
+### 🅰️ Web UI (recommended)
 
-### Option B: Web UI
+Start the UI locally:
+
 ```bash
 streamlit run ui.py
 ```
 
-Below is a preview of the Streamlit UI where you can select environments and article numbers:
+Then open in browser with a pre-filled URL like:
+
+```
+http://localhost:8501/?entity_type=exartikel&identifier=1008276
+```
+
+You’ll see:
+- Read-only view of entity type + identifier
+- Matching clone configurations (with display names)
+- One-click clone execution
+
+> Sample screenshot:
 
 ![Streamlit UI Screenshot](assets/streamlit_ui.png)
 
-## ⚙️ Example environment Config
+---
+
+### 🅱️ CLI (optional)
+
+```bash
+python main.py --clone exartikel_STANDARD --articlenr 1008276
+```
+
+---
+
+## ⚙️ Configuration via Environment Variables
+
+Use either a `.env` file (local) or Azure App Settings (recommended for production):
+
+```env
+API_URL_GET=https://your.domain/api/entityappservice/get
+API_URL_UPLOAD=https://your.domain/blob/container/Filename
+RDP_USER_ID=user@domain.com
+RDP_USER_EMAIL=user@domain.com
+RDP_CLIENT_ID=abc123
+RDP_CLIENT_SECRET=xyz456
+```
+
+---
+
+## 🧪 Clone Config Format (example: `config/clone/exartikel_STANDARD.json`)
+
 ```json
 {
-    "url_get": "https://{TENANT}.syndigo.com/api/entityappservice/get",
-    "headers_get": {
-      "x-rdp-version": "8.1",
-      "x-rdp-clientId": "rdpclient",
-      "x-rdp-userId": "{userID}",
-      "x-rdp-useremail": "{userEmail}",
-      "x-rdp-userRoles": "[\"systemadmin\"]",
-      "auth-client-id": "{clientId}",
-      "auth-client-secret": "{clientSecret}",
-      "Content-Type": "application/json"
+  "display_name": "Standard Clone – Artikel",
+  "clone": true,
+  "debug": false,
+  "identifier_attribute": "axartikelnrsap",
+  "entity_type": "exartikel",
+  "entity_configs": [
+    {
+      "typ": "exartikel",
+      "attributes": [...],
+      "relationships": [...],
+      "relationship_attributes": [...]
     },
-    "url": "{URL_Blob_Import}",
-    "headers": {
-      "x-ms-blob-type": "BlockBlob"
+    {
+      "typ": "exlieferantenartikel",
+      "attributes": [...],
+      "relationships": [...],
+      "relationship_attributes": [...]
     }
+  ]
 }
 ```
 
-## 💡 Tips
-- Enter article numbers via UI or directly in the config
-- `debug: true` → exports only, no upload
-- `clone: true` → generates new IDs, cleans attributes, fixes relations
+---
 
+## 💡 Tips
+
+- Add more clone configs under `config/clone/`
+- Use `debug: true` to skip upload and only export entities
+- Streamlit UI only shows configs that match the `entity_type` passed in the URL
 
 ---
-Made with AI magic 🪄 by Simone
 
+Made with AI magic 🪄 by Simone
