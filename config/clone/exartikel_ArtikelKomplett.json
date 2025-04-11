@@ -1,0 +1,184 @@
+{
+    "debug": false,
+    "clone": true,
+    "identifier_attribute": "axartikelnrsap",
+    "display_name": "Artikel komplett klonen",
+    "entity_type": "exartikel",
+    "entity_configs": [
+        {
+            "typ": "exartikel",
+            "attributes": [
+                "atxauspraegunggewichtsartikel",
+                "atxwarengruppesap",
+                "axaltersbegrtyp",
+                "axartikelartsap",
+                "axartikelbeschreibung1",
+                "axartikelhierarchieleaf",
+                "axartikelkurztext",
+                "axartikeltypnav",
+                "axartikeltypsap",
+                "axautomatischerbondruck",
+                "axbasismengeneinheit",
+                "axbeschreibungdrei",
+                "axbeschreibungzwei",
+                "axbezugsquelle",
+                "axerstessortiment",
+                "axeslicons",
+                "axfischenthalten",
+                "axgefahrstoff",
+                "axgestbeschr1",
+                "axgestbeschr2",
+                "axinhalt",
+                "axinhaltsbezeichnung",
+                "axinternalbrand",
+                "axkassennachricht",
+                "axlieferkanal",
+                "axmarkenbereich",
+                "axmhdvorhanden",
+                "axnavisionlogs",
+                "axnavisionwgrp",
+                "axnettoinhalt",
+                "axnettomengeneinheit",
+                "axoekolabel",
+                "axpreisaenderungkasse",
+                "axpreisesap",
+                "axpreispositionierung",
+                "axrabattzugelassen",
+                "axrea",
+                "axrueckgabezugelassen",
+                "axsaisontypsap",
+                "axsetinhalt",
+                "axstuecklistenart",
+                "axtaxclass",
+                "axtaxtype",
+                "axvergleichspreiseinheit",
+                "axvonaktionausgeschlossen",
+                "axvrgveg",
+                "axwarengruppeid",
+                "axwarengruppesektion"
+            ],
+            "relationships": [
+                "relxliefzuart",
+                "relxartikelzulieferantenartikel"
+            ],
+            "relationship_attributes": [
+                "arelxregellieferant"
+            ]
+        },
+        {
+            "typ": "exeinkaufskond",
+            "attributes": [
+                "axartikelartsap",
+                "axartikelkurztext",
+                "axkomgdatab",
+                "axkomgkbetr",
+                "axkomgkmein",
+                "axkomgkonwa",
+                "axkomgkschl",
+                "axlieferantennr",
+                "axlohnbearbeitung",
+                "axnameeins",
+                "axnettoinhalt",
+                "axnettomengeneinheit",
+                "axwarengruppesektion"
+            ],
+            "relationships": [
+                "relxexeinkaufskondzuexartikel"
+            ],
+            "relationship_attributes": []
+        },
+        {
+            "typ": "exlieferantenartikel",
+            "attributes": [
+                "atxauspraegunggewichtsartikel",
+                "atxwarengruppesap",
+                "axartikelartsap",
+                "axartikelhierarchieleaf",
+                "axartikelkurztext",
+                "axbezugsquelle",
+                "aximportartikel",
+                "axinfrecinco1",
+                "axinfrecinco2",
+                "axinfreclieferantenartnr",
+                "axlieferantennr",
+                "axnameeins",
+                "axnettoinhalt",
+                "axnettomengeneinheit",
+                "axsaisontypsap",
+                "axsystemintegrationsap",
+                "axwarengruppesektion"
+            ],
+            "relationships": [
+                "relxexlieferantenartikelzuexeinkaufskond",
+                "relxliefzuliefart",
+                "relxtradeitemzuliefartikel"
+            ],
+            "relationship_attributes": []
+        },
+        {
+            "typ": "extradeitem",
+            "attributes": [
+                "atxauspraegunggewichtsartikel",
+                "atxwarengruppesap",
+                "axartikelhierarchieleaf",
+                "axartikelkurztext",
+                "axausgabeme",
+                "axbestellmengeneinheit",
+                "axbezugsquelle",
+                "axbme",
+                "axcoligueltigab",
+                "axcoliname",
+                "axgdsngrossweight",
+                "axgdsnheight",
+                "axgdsnlength",
+                "axgdsnnetweight",
+                "axgdsnpackagingtype",
+                "axgdsnvolume",
+                "axgdsnwidth",
+                "axgestbeschr1",
+                "axgestbeschr2",
+                "axgestbeschr3",
+                "axgestetikettedrucken",
+                "aximportartikel",
+                "axistverkaufsmenge",
+                "axlieferantennr",
+                "axnameeins",
+                "axnettoinhalt",
+                "axnettomengeneinheit",
+                "axplatzregbreite",
+                "axplatzreghoehe",
+                "axplatzreglaenge",
+                "axpreisauszeichung",
+                "axsystemintegrationsap",
+                "axume",
+                "axverkaufme",
+                "axverkaufseinheittu",
+                "axwarengruppesektion"
+            ],
+            "relationships": [
+                "relxtradeitemzuart"
+            ],
+            "relationship_attributes": []
+        },
+        {
+            "typ": "exverkaufskond",
+            "attributes": [
+                "axartikelkurztext",
+                "axkomgdatab",
+                "axkomgkbetr",
+                "axkomgkmein",
+                "axkomgkschl",
+                "axkomgvrkme",
+                "axnettoinhalt",
+                "axnettomengeneinheit",
+                "axverkaufme",
+                "axvkkassepruefen",
+                "axwarengruppesektion"
+            ],
+            "relationships": [
+                "relxexverkaufskondzuexartikel"
+            ],
+            "relationship_attributes": []
+        }
+    ]
+}

@@ -1,0 +1,29 @@
+{
+    "params": {
+      "query": {
+        "filters": {
+          "typesCriterion": ["REPLACE_ENTITY"],
+          "attributesCriterion": [
+            {
+              "axartikelnrsap": {
+                "exacts": "REPLACE_ARTNR",
+                "type": "_STRING",
+                "valueContexts": [
+                  {
+                    "source": "internal",
+                    "locale": "de-DE"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "fields": {
+        "attributes": "REPLACE_ATTRIBUTES",
+        "relationships": "REPLACE_RELATIONSHIPS",
+        "relationshipAttributes": "REPLACE_RELATIONSHIPATTR"
+      }
+    }
+  }
+  

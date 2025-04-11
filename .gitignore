@@ -1,0 +1,8 @@
+.venv/
+.vscode/
+__pycache__/
+config/env/*
+!config/env/example_Env.json
+data/*
+!data/.gitkeep
+.env
