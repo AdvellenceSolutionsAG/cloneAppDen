@@ -1,71 +1,11 @@
 {
-    "debug": false,
+    "debug": true,
     "clone": true,
-    "process_type": "artikelKomplett",
     "identifier_attribute": "axartikelnrsap",
-    "display_name": "Artikel komplett klonen",
+    "process_type": "lieferantenwechsel",
+    "display_name": "Lieferanten Wechsel",
     "entity_type": "exartikel",
     "entity_configs": [
-        {
-            "typ": "exartikel",
-            "attributes": [
-                "atxauspraegunggewichtsartikel",
-                "atxwarengruppesap",
-                "axaltersbegrtyp",
-                "axartikelartsap",
-                "axartikelbeschreibung1",
-                "axartikelhierarchieleaf",
-                "axartikelkurztext",
-                "axartikeltypnav",
-                "axartikeltypsap",
-                "axautomatischerbondruck",
-                "axbasismengeneinheit",
-                "axbeschreibungdrei",
-                "axbeschreibungzwei",
-                "axbezugsquelle",
-                "axerstessortiment",
-                "axeslicons",
-                "axfischenthalten",
-                "axgefahrstoff",
-                "axgestbeschr1",
-                "axgestbeschr2",
-                "axinhalt",
-                "axinhaltsbezeichnung",
-                "axinternalbrand",
-                "axkassennachricht",
-                "axlieferkanal",
-                "axmarkenbereich",
-                "axmhdvorhanden",
-                "axnavisionlogs",
-                "axnavisionwgrp",
-                "axnettoinhalt",
-                "axnettomengeneinheit",
-                "axoekolabel",
-                "axpreisaenderungkasse",
-                "axpreisesap",
-                "axpreispositionierung",
-                "axrabattzugelassen",
-                "axrea",
-                "axrueckgabezugelassen",
-                "axsaisontypsap",
-                "axsetinhalt",
-                "axstuecklistenart",
-                "axtaxclass",
-                "axtaxtype",
-                "axvergleichspreiseinheit",
-                "axvonaktionausgeschlossen",
-                "axvrgveg",
-                "axwarengruppeid",
-                "axwarengruppesektion"
-            ],
-            "relationships": [
-                "relxliefzuart",
-                "relxartikelzulieferantenartikel"
-            ],
-            "relationship_attributes": [
-                "arelxregellieferant"
-            ]
-        },
         {
             "typ": "exeinkaufskond",
             "attributes": [
@@ -111,7 +51,6 @@
             ],
             "relationships": [
                 "relxexlieferantenartikelzuexeinkaufskond",
-                "relxliefzuliefart",
                 "relxtradeitemzuliefartikel"
             ],
             "relationship_attributes": []
@@ -158,26 +97,6 @@
             ],
             "relationships": [
                 "relxtradeitemzuart"
-            ],
-            "relationship_attributes": []
-        },
-        {
-            "typ": "exverkaufskond",
-            "attributes": [
-                "axartikelkurztext",
-                "axkomgdatab",
-                "axkomgkbetr",
-                "axkomgkmein",
-                "axkomgkschl",
-                "axkomgvrkme",
-                "axnettoinhalt",
-                "axnettomengeneinheit",
-                "axverkaufme",
-                "axvkkassepruefen",
-                "axwarengruppesektion"
-            ],
-            "relationships": [
-                "relxexverkaufskondzuexartikel"
             ],
             "relationship_attributes": []
         }
