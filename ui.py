@@ -50,13 +50,23 @@ config_filename_map = {c["display_name"]: c["filename"] for c in available_confi
 selected_display = st.selectbox("🧩 Klon-Konfiguration wählen", config_display_names)
 selected_config = config_filename_map.get(selected_display)
 
+# --- Lieferanteneingabe, wenn "Lieferantenwechsel" im Displaynamen steht ---
+supplier_nr = None
+if "Lieferantenwechsel" in selected_display:
+    supplier_nr = st.text_input("🏷 Neue Lieferantennummer eingeben", placeholder="z. B. 102000")
+
 # --- Klonen starten ---
 if st.button("🚀 Klonen starten"):
     if not identifier or not entity_type or not selected_config:
         st.error("Bitte stelle sicher, dass alle Parameter korrekt übergeben wurden.")
+    elif "Lieferantenwechsel" in selected_display and not supplier_nr:
+        st.error("Bitte gib die neue Lieferantennummer ein.")
     else:
-        # Main-Skript aufrufen mit echten Parametern
+        # Befehl aufbauen
         command = f"python main.py --clone {selected_config} --articlenr {identifier}"
+        if supplier_nr:
+            command += f" --supplier {supplier_nr}"
+
         st.text(f"Führe aus: {command}")
 
         with st.spinner("Bitte warten – Klonvorgang läuft..."):

@@ -1,0 +1,104 @@
+{
+    "debug": true,
+    "clone": true,
+    "identifier_attribute": "axartikelnrsap",
+    "process_type": "lieferantenwechsel",
+    "display_name": "Lieferanten Wechsel",
+    "entity_type": "exartikel",
+    "entity_configs": [
+        {
+            "typ": "exeinkaufskond",
+            "attributes": [
+                "axartikelartsap",
+                "axartikelkurztext",
+                "axkomgdatab",
+                "axkomgkbetr",
+                "axkomgkmein",
+                "axkomgkonwa",
+                "axkomgkschl",
+                "axlieferantennr",
+                "axlohnbearbeitung",
+                "axnameeins",
+                "axnettoinhalt",
+                "axnettomengeneinheit",
+                "axwarengruppesektion"
+            ],
+            "relationships": [
+                "relxexeinkaufskondzuexartikel"
+            ],
+            "relationship_attributes": []
+        },
+        {
+            "typ": "exlieferantenartikel",
+            "attributes": [
+                "atxauspraegunggewichtsartikel",
+                "atxwarengruppesap",
+                "axartikelartsap",
+                "axartikelhierarchieleaf",
+                "axartikelkurztext",
+                "axbezugsquelle",
+                "aximportartikel",
+                "axinfrecinco1",
+                "axinfrecinco2",
+                "axinfreclieferantenartnr",
+                "axlieferantennr",
+                "axnameeins",
+                "axnettoinhalt",
+                "axnettomengeneinheit",
+                "axsaisontypsap",
+                "axsystemintegrationsap",
+                "axwarengruppesektion"
+            ],
+            "relationships": [
+                "relxexlieferantenartikelzuexeinkaufskond",
+                "relxtradeitemzuliefartikel"
+            ],
+            "relationship_attributes": []
+        },
+        {
+            "typ": "extradeitem",
+            "attributes": [
+                "atxauspraegunggewichtsartikel",
+                "atxwarengruppesap",
+                "axartikelhierarchieleaf",
+                "axartikelkurztext",
+                "axausgabeme",
+                "axbestellmengeneinheit",
+                "axbezugsquelle",
+                "axbme",
+                "axcoligueltigab",
+                "axcoliname",
+                "axgdsngrossweight",
+                "axgdsnheight",
+                "axgdsnlength",
+                "axgdsnnetweight",
+                "axgdsnpackagingtype",
+                "axgdsnvolume",
+                "axgdsnwidth",
+                "axgestbeschr1",
+                "axgestbeschr2",
+                "axgestbeschr3",
+                "axgestetikettedrucken",
+                "aximportartikel",
+                "axistverkaufsmenge",
+                "axlieferantennr",
+                "axnameeins",
+                "axnettoinhalt",
+                "axnettomengeneinheit",
+                "axplatzregbreite",
+                "axplatzreghoehe",
+                "axplatzreglaenge",
+                "axpreisauszeichung",
+                "axsystemintegrationsap",
+                "axume",
+                "axverkaufme",
+                "axverkaufseinheittu",
+                "axwarengruppesektion"
+            ],
+            "relationships": [
+                "relxtradeitemzuart"
+            ],
+            "relationship_attributes": []
+        }
+    ]
+}

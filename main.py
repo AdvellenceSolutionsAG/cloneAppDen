@@ -10,8 +10,24 @@ from getSapId import get_new_sap_artikelnummer
 
 # --- Argumente verarbeiten ---
 parser = argparse.ArgumentParser(description="MDM Clone App")
-parser.add_argument("--clone", dest="clone_config", help="CloneConfig-Datei (z.B. exartikel_STANDARD)")
-parser.add_argument("--articlenr", dest="articlenr", help="Artikelnummer oder Identifier")
+parser.add_argument(
+    "--clone",
+    dest="clone_config",
+    required=True,
+    help="Name der Clone-Konfiguration (z. B. exartikel_STANDARD)"
+)
+parser.add_argument(
+    "--articlenr",
+    dest="articlenr",
+    required=True,
+    help="Artikelnummer oder Identifier zur Verarbeitung"
+)
+parser.add_argument(
+    "--supplier",
+    dest="supplier",
+    required=False,
+    help="(Optional) Neue Lieferantennummer für Lieferantenwechsel-Prozess"
+)
 args = parser.parse_args()
 
 # --- Dateipfade definieren ---
