@@ -11,7 +11,7 @@ import logging
 
 # --- Logging konfigurieren ---
 # Initialisiert das Logging mit einheitlichem Format (wird aus utils geladen)
-configure_logging()
+# configure_logging()
 
 # --- Kommandozeilenargumente definieren und parsen ---
 parser = argparse.ArgumentParser(description="MDM Clone App")
@@ -26,6 +26,12 @@ parser.add_argument(
     dest="articlenr",
     required=True,
     help="Artikelnummer oder Identifier zur Verarbeitung"
+)
+parser.add_argument(
+    "--supplier",
+    dest="supplier",
+    required=False,
+    help="(Optional) Neue Lieferantennummer für Lieferantenwechsel-Prozess"
 )
 args = parser.parse_args()
 
@@ -51,11 +57,17 @@ env_config = get_env_config()
 
 # Artikelnummer/Identifier über Argument
 identifier = args.articlenr
+supplier_nr = args.supplier
 
 # --- Starte Klonprozess ---
 # Ruft die gesamte Business-Logik auf und erhält ggf. eine neue SAP-ID zurück
 new_sap_id, entity_type = run_clone_process(
-    identifier, sync_config, env_config, TEMPLATE_PATH, DATA_DIR
+    identifier,
+    sync_config,
+    env_config,
+    TEMPLATE_PATH,
+    DATA_DIR,
+    supplier_nr=supplier_nr
 )
 
 # --- Ausgabe bei erfolgreicher SAP-ID Generierung ---

@@ -1,32 +1,24 @@
 {
-    "debug": true,
-    "clone": true,
+    "debug": false,
+    "clone": false,
     "identifier_attribute": "axartikelnrsap",
     "process_type": "lieferantenwechsel",
     "display_name": "Lieferanten Wechsel",
     "entity_type": "exartikel",
     "entity_configs": [
         {
-            "typ": "exeinkaufskond",
+            "typ": "exartikel",
             "attributes": [
-                "axartikelartsap",
-                "axartikelkurztext",
-                "axkomgdatab",
-                "axkomgkbetr",
-                "axkomgkmein",
-                "axkomgkonwa",
-                "axkomgkschl",
-                "axlieferantennr",
-                "axlohnbearbeitung",
-                "axnameeins",
-                "axnettoinhalt",
-                "axnettomengeneinheit",
-                "axwarengruppesektion"
+                "axidentifier",
+                "axmdmname",
+                "axartikelnrsap"
             ],
             "relationships": [
-                "relxexeinkaufskondzuexartikel"
+                
             ],
-            "relationship_attributes": []
+            "relationship_attributes": [
+                
+            ]
         },
         {
             "typ": "exlieferantenartikel",
@@ -41,8 +33,6 @@
                 "axinfrecinco1",
                 "axinfrecinco2",
                 "axinfreclieferantenartnr",
-                "axlieferantennr",
-                "axnameeins",
                 "axnettoinhalt",
                 "axnettomengeneinheit",
                 "axsaisontypsap",
@@ -50,7 +40,6 @@
                 "axwarengruppesektion"
             ],
             "relationships": [
-                "relxexlieferantenartikelzuexeinkaufskond",
                 "relxtradeitemzuliefartikel"
             ],
             "relationship_attributes": []
@@ -81,8 +70,6 @@
                 "axgestetikettedrucken",
                 "aximportartikel",
                 "axistverkaufsmenge",
-                "axlieferantennr",
-                "axnameeins",
                 "axnettoinhalt",
                 "axnettomengeneinheit",
                 "axplatzregbreite",
