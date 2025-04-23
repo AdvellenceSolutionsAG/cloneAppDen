@@ -1,5 +1,7 @@
 import json
 import requests
+import os
+import ui as ui
 
 def load_json(path):
     """
@@ -68,3 +70,57 @@ def post_request(url, payload, headers):
     response = requests.post(url, json=payload, headers=headers)
     response.raise_for_status()
     return response.json()
+
+def load_and_customize_payload_existing_suppliers(template_path, artikelnummer):
+    """
+    Lädt ein JSON-Template für Abfrage der bestehenden Lieferanten und ersetzt Platzhalter durch echte Werte.
+
+    Args:
+        template_path (str): Pfad zur Template-Datei.
+        artikelnummer (str): Der Identifier bzw. Artikelnummer.
+
+    Returns:
+        dict: Das angepasste Payload als Dictionary.
+    """
+    with open(template_path, "r", encoding="utf-8") as f:
+        template = json.load(f)
+
+    # Ersetze Platzhalter im JSON-Template
+    json_str = json.dumps(template)
+    json_str = json_str.replace("REPLACE_ARTNR", artikelnummer)
+
+    return json.loads(json_str)
+
+
+def load_and_customize_payload_existing_suppliers_data(template_path, supplier_id):
+    """
+    Lädt ein JSON-Template für Abfrage der bestehenden Lieferanten und ersetzt Platzhalter durch echte Werte.
+
+    Args:
+        template_path (str): Pfad zur Template-Datei.
+        supplier_id (str): Der Identifier des Lieferanten.
+
+    Returns:
+        dict: Das angepasste Payload als Dictionary.
+    """
+    with open(template_path, "r", encoding="utf-8") as f:
+        template = json.load(f)
+
+    # Ersetze Platzhalter im JSON-Template
+    json_str = json.dumps(template)
+    json_str = json_str.replace("REPLACE_ID", supplier_id)
+
+    return json.loads(json_str)
+
+# --- Hilfsfunktion: Liste passender Konfigs für Entitätstyp ---
+def get_matching_clone_configs(entity_type):
+    folder = "config/clone"
+    configs = []
+    for fname in os.listdir(folder):
+        if fname.endswith(".json") and fname.startswith(entity_type):
+            path = os.path.join(folder, fname)
+            with open(path, "r", encoding="utf-8") as f:
+                config = json.load(f)
+            display = config.get("display_name", fname.replace(".json", ""))
+            configs.append({"filename": fname.replace(".json", ""), "display_name": display})
+    return configs

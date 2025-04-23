@@ -1,0 +1,33 @@
+{
+    "params": {
+        "query": {
+            "filters": {
+                "typesCriterion": [
+                    "exartikel"
+                ],
+                "attributesCriterion": [
+                    {
+                        "axartikelnrsap": {
+                            "exacts": [
+                                "REPLACE_ARTNR"
+                            ],
+                            "type": "_STRING",
+                            "valueContexts": [
+                                {
+                                    "source": "internal",
+                                    "locale": "de-DE"
+                                }
+                            ]
+                        }
+                    }
+                ]
+            }
+        },
+        "fields": {
+            "attributes": [
+            ],
+            "relationships": ["relxliefzuart"],
+            "relationshipAttributes": ["arelxregellieferant"]
+        }
+    }
+}

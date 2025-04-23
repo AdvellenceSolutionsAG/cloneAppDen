@@ -1,0 +1,17 @@
+{
+    "params": {
+        "query": {
+            "id": "REPLACE_ID",
+            "filters": {
+                "typesCriterion": [
+                    "exlieferant"
+                ]
+            }
+        },
+        "fields": {
+            "attributes": [
+                "axmdmname"
+            ]
+        }
+    }
+}

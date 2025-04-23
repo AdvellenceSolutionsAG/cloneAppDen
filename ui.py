@@ -3,6 +3,17 @@ import os
 import json
 import subprocess
 import requests
+import utils.env_config as env_config
+import utils.helpers as helpers
+
+# --- URL-Parameter lesen ---
+params = st.query_params
+identifier = params.get("identifier", "")
+entity_type = params.get("entity_type", "")
+
+# --- Template für API-Requests ---
+TEMPLATE_PATH_EXISTING_SUPPLIERS = "payloads/template_get_existing_suppliers.json"
+TEMPLATE_PATH_EXISTING_SUPPLIERS_DATA = "payloads/template_get_existing_suppliers_data.json"
 
 # --- Mapping für Anzeige ---
 ENTITY_LABELS = {
@@ -13,18 +24,51 @@ ENTITY_LABELS = {
     "exeinkaufskond": "Einkaufskondition"
 }
 
-# --- Hilfsfunktion: Liste passender Konfigs für Entitätstyp ---
-def get_matching_clone_configs(entity_type):
-    folder = "config/clone"
-    configs = []
-    for fname in os.listdir(folder):
-        if fname.endswith(".json") and fname.startswith(entity_type):
-            path = os.path.join(folder, fname)
-            with open(path, "r", encoding="utf-8") as f:
-                config = json.load(f)
-            display = config.get("display_name", fname.replace(".json", ""))
-            configs.append({"filename": fname.replace(".json", ""), "display_name": display})
-    return configs
+# --- Bestehende Lieferanten per API abrufen ---
+def get_existing_suppliers(env_config):
+    url = env_config["url_get"]
+    headers = env_config["headers_get"]
+    payload = helpers.load_and_customize_payload_existing_suppliers(TEMPLATE_PATH_EXISTING_SUPPLIERS, identifier)
+    
+    try:
+        response = requests.post(url, json=payload, headers=headers)
+        response.raise_for_status()
+        data = response.json()
+        supplier_infos = []
+
+        for entity in data.get("response", {}).get("entities", []):
+            rels = entity.get("data", {}).get("relationships", {}).get("relxliefzuart", [])
+            for rel in rels:
+                supplier_id = rel.get("relTo", {}).get("id")
+                is_default = rel.get("attributes", {}).get("arelxregellieferant", {}).get("values", [{}])[0].get("value") is True
+                if supplier_id:
+                    supplier_infos.append({
+                        "id": supplier_id,
+                        "is_default": is_default
+                    })
+
+    except Exception as e:
+        st.error(f"Keine Lieferantenbeziehungen gefunden: {e}")
+        return [], None
+
+    # Namen auflösen
+    supplier_names = []
+    default_index = 0
+    for idx, sup in enumerate(supplier_infos):
+        try:
+            payload_data = helpers.load_and_customize_payload_existing_suppliers_data(TEMPLATE_PATH_EXISTING_SUPPLIERS_DATA, sup["id"])
+            response_data = requests.post(url, json=payload_data, headers=headers)
+            response_data.raise_for_status()
+            entity = response_data.json().get("response", {}).get("entities", [{}])[0]
+            name = entity.get("data", {}).get("attributes", {}).get("axmdmname", {}).get("values", [{}])[0].get("value")
+            if name:
+                supplier_names.append(name)
+                if sup["is_default"]:
+                    default_index = idx
+        except Exception as e:
+            st.warning(f"Name für Lieferant {sup['id']} konnte nicht geladen werden: {e}")
+
+    return supplier_names, default_index
 
 # --- Lieferantensuche per API ---
 def search_suppliers(query, env_config):
@@ -62,11 +106,6 @@ def search_suppliers(query, env_config):
         st.error(f"Fehler beim Abrufen der Lieferanten: {e}")
         return []
 
-# --- URL-Parameter lesen ---
-params = st.query_params
-identifier = params.get("identifier", "")
-entity_type = params.get("entity_type", "")
-
 # --- Titel & Logo ---
 st.image("assets/logo.png", width=200)
 st.title("🔁 MDM Clone App")
@@ -76,7 +115,7 @@ st.text_input("🧬 Entitätstyp", value=ENTITY_LABELS.get(entity_type, entity_t
 st.text_input("🆔 Identifier", value=identifier, disabled=True)
 
 # --- Konfigs laden ---
-available_configs = get_matching_clone_configs(entity_type) if entity_type else []
+available_configs = helpers.get_matching_clone_configs(entity_type) if entity_type else []
 config_display_names = ["Bitte Klon-Konfiguration wählen..."] + [c["display_name"] for c in available_configs]
 config_filename_map = {c["display_name"]: c["filename"] for c in available_configs}
 
@@ -90,19 +129,19 @@ suchtext = ""
 lieferant_ausgewaehlt = False
 
 if selected_display and "Lieferanten Wechsel" in selected_display:
-    env_config = {
-        "url_get": os.getenv("API_URL_GET"),
-        "headers_get": {
-            "x-rdp-version": "8.1",
-            "x-rdp-clientId": os.getenv("RDP_CLIENT_ID"),
-            "x-rdp-userId": os.getenv("RDP_USER_ID"),
-            "x-rdp-useremail": os.getenv("RDP_USER_EMAIL"),
-            "auth-client-id": os.getenv("RDP_CLIENT_ID"),
-            "auth-client-secret": os.getenv("RDP_CLIENT_SECRET"),
-            "Content-Type": "application/json"
-        }
-    }
+    env_config = env_config.get_env_config()
 
+    # Bestehende Lieferanten laden
+    lieferanten_namen, default_index = get_existing_suppliers(env_config)
+
+    if lieferanten_namen:
+        existing_supplier = st.selectbox(
+            "Von welchem Lieferant soll geklont werden?",
+            lieferanten_namen,
+            index=default_index
+        )
+
+    # Freitextsuche nach Ziel-Lieferant
     suchtext = st.text_input("🔍 Lieferant suchen")
     if len(suchtext) >= 3:
         vorschlaege = search_suppliers(suchtext, env_config)
@@ -111,6 +150,7 @@ if selected_display and "Lieferanten Wechsel" in selected_display:
             lieferant_ausgewaehlt = supplier_nr is not None
         else:
             st.info("Keine Treffer gefunden.")
+
 
 # --- Bedingungen für Button prüfen ---
 config_ausgewaehlt = selected_config is not None
